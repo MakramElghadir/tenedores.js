@@ -1,50 +1,30 @@
-// Mock de almacenamiento en memoria para las reviews
-const reviews = [];
+const express = require('express');
+const app = express();
 
-// Middleware para proteger el endpoint (validación de administrador)
-const isAdmin = (req, res, next) => {
-  const { role } = req.user || {}; // Asume que el usuario está en req.user
-  if (role !== 'admin') {
-    return res.status(403).send({ error: 'Access denied. Admins only.' });
-  }
-  next();
+// Middleware para registrar la IP y el endpoint
+const logClientInfo = (req, res, next) => {
+    const clientIp = req.ip || req.connection.remoteAddress; // Obtiene la IP del cliente
+    const endpoint = req.originalUrl; // Obtiene el endpoint que visitó
+
+    console.log(`Cliente IP: ${clientIp}, Endpoint visitado: ${endpoint}`);
+
+    next(); // Llama al siguiente middleware o controlador
 };
 
-// Middleware para loguear información de los endpoints
-const logRequestInfo = (req, res, next) => {
-  const clientIp = req.ip || req.connection.remoteAddress;
-  const endpoint = req.originalUrl;
-  console.log(`Request received from IP: ${clientIp} - Endpoint: ${endpoint}`);
-  next();
-};
+// Usar el middleware en toda la aplicación
+app.use(logClientInfo);
 
-// Endpoint para guardar reviews
-app.post('/api/reviews', logRequestInfo, (req, res) => {
-  const { rating, message } = req.body;
-
-  // Validaciones
-  if (!['good', 'neutral', 'bad'].includes(rating)) {
-    return res.status(400).send({ error: 'Invalid rating value' });
-  }
-  if (typeof message !== 'string' || message.length > 256) {
-    return res.status(400).send({ error: 'Message exceeds character limit' });
-  }
-
-  // Almacenar la review
-  const review = { rating, message, date: new Date() };
-  reviews.push(review);
-
-  res.status(201).send({ message: 'Review saved successfully', review });
+// Rutas de ejemplo
+app.get('/', (req, res) => {
+    res.send('Hola Mundo!');
 });
 
-// Endpoint protegido para obtener todas las reviews
-app.get('/api/reviews', logRequestInfo, isAdmin, (req, res) => {
-  res.status(200).json(reviews);
+app.get('/about', (req, res) => {
+    res.send('Acerca de nosotros');
 });
 
-// Ejemplo de simulación del usuario en req.user
-// (En una aplicación real, esto vendría de la autenticación JWT o similar)
-app.use((req, res, next) => {
-  req.user = { id: 1, role: 'admin' }; // Cambia a 'user' para probar acceso denegado
-  next();
+// Iniciar el servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
