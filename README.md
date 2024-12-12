@@ -1,7 +1,6 @@
 # tenedores.js
 probando forks
-
-
+javi esta buenisimo que te cagas
 Hanten Jujutsu shiki Aka 🫸🔴 Hanten Jujutsu shiki Ao 🫸🔵 🫸🔵 🔴 🫷
 
 🔵🫸🫷🔴
