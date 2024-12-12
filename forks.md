@@ -10,11 +10,14 @@ El flujo de trabajo con forks es el siguiente:
 4. Agregamos el remoto original con `git remote add upstream <URL>`.
 5. Modificamos el código.
 6. Si el repositorio original ha sido actualizado, traemos los cambios con `git fetch upstream`.
-7. Integramos los cambios con `git merge upstream/main`.
-8. Subimos los cambios a nuestro fork con `git push origin main`.
-9. En github, creamos un `pull request` para solicitar que los cambios sean integrados al repositorio original.
-10. Quien mantiene el repositorio original revisa los cambios y decide si los integra o no, acorde a las reglas del proyecto.
-11. Los demás integrantes del equipo deben recibir una notificación de que hay una nueva versión del repositorio para actualizar su fork.
+7. Si ya tenemos cambios en nuestro fork, los integramos con `git add .` y `git commit -m "mensaje"`.
+7. Integramos los cambios del repo principal con `git merge upstream/main`.
+8. Resolvemos conflictos si los hay.
+9. Añadimos los cambios resueltos con `git add .` y `git commit -m "mensaje"`.
+10. Subimos los cambios a nuestro fork con `git push origin main`.
+11. En github, creamos un `pull request` para solicitar que los cambios sean integrados al repositorio original.
+12. Quien mantiene el repositorio original revisa los cambios y decide si los integra o no, acorde a las reglas del proyecto.
+13. Los demás integrantes del equipo deben recibir una notificación de que hay una nueva versión del repositorio para actualizar su fork.
 
 Normas:
 
